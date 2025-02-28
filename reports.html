@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: #241616af;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            animation: fadeInDown 1s ease-out; /* Header animation */
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            animation: fadeIn 1s ease-out 0.2s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            background-color: #555;
+            transform: scale(1.1);
+            color: #007bff;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out 0.4s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1, h2 {
+            text-align: center;
+            animation: fadeIn 1s ease-out 0.6s;
+            transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; /* Transitions */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        }
+
+        h1:hover {
+            transform: scale(1.05); /* Scale up slightly on hover */
+     /*       color: #0056b3; /* Change color on hover */
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
+        }
+
+        .report-options .report-options-content {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out 0.8s forwards;
+        }
+
+        .report-options label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select, input[type="date"], button {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        select:hover, input[type="date"]:hover, button:hover {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: fadeInMoveRight 1s ease-out 1s forwards;
+        }
+
+        @keyframes fadeInMoveRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        th:hover {
+            background-color: #e0e0e0;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        tr:hover td {
+            border: 1px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Attendance Management System</h1>
+    </header>
+
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="attendnance.html">Attendance</a>
+        <a href="reports.html">Reports</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <div class="container">
+
+        <h1>Reports</h1>
+
+        <div class="report-options">
+            <div class="report-options-content">
+                <label for="reportType">Report Type:</label>
+                <select id="reportType">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="custom">Custom Date Range</option>
+                </select><br>
+
+                <label for="reportStartDate">Start Date:</label>
+                <input type="date" id="reportStartDate"><br>
+
+                <label for="reportEndDate">End Date:</label>
+                <input type="date" id="reportEndDate"><br>
+
+                <button onclick="generateReport()">Generate Report</button>
+            </div>
+        </div>
+
+        <table id="reportTable">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function generateReport() {
+            const reportType = document.getElementById('reportType').value;
+            const startDate = document.getElementById('reportStartDate').value;
+            const endDate = document.getElementById('reportEndDate').value;
+
+            fetch(`http://127.0.0.1:5000/api/reports?reportType=${reportType}&startDate=${startDate}&endDate=${endDate}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(reportData => {
+                    const reportTable = document.getElementById('reportTable').getElementsByTagName('tbody')[0];
+                    reportTable.innerHTML = ""; // Clear previous data
+
+                    reportData.forEach(item => {
+                        const row = reportTable.insertRow();
+                        const idCell = row.insertCell();
+                        const dateCell = row.insertCell();
+                        const statusCell = row.insertCell();
+
+                        idCell.textContent = item.student_id;
+                        dateCell.textContent = item.date;
+                        statusCell.textContent = item.status;
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching report:", error);
+                    alert("Error generating report. Please try again later.");
+                });
+        }
+    </script>
+
+</body>
+</html>

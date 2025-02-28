@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Management System</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            overflow-x: hidden; /* Prevents horizontal scroll during animations */
+        }
+
+        header {
+            background-color: #241616af;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            animation: fadeInDown 1s ease-out; /* Header animation */
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            margin-top: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Semi-formal font */
+            font-weight: 600; /* Slightly bolder */
+            transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; /* Transitions */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        }
+
+        h1:hover {
+            transform: scale(1.05); /* Scale up slightly on hover */
+     /*       color: #0056b3; /* Change color on hover */
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
+        }
+
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            animation: fadeIn 1s ease-out 0.2s; /* Nav animation with delay */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block; /* For transform to work */
+            transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease; /* Added color transition */
+        }
+
+        nav a:hover {
+            background-color: #555;
+            transform: scale(1.1); /* Scale up on hover */
+            color: #007bff;
+        }
+
+        main {
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            opacity: 0; /* Initially hidden */
+            transform: translateY(20px); /* Move down initially */
+            animation: fadeInUp 1s ease-out 0.4s forwards; /* Main content animation with delay */
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-out 0.6s; /* Hero animation */
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            animation: fadeIn 1s ease-out 0.8s; /* Features animation */
+            
+
+        }
+
+        .feature {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease; /* Transition for hover effect */
+        }
+
+        .feature:hover {
+            transform: scale(1.05); /* Scale up slightly on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Add a subtle shadow */
+            background-color: #e6f2ff; /* Light blue background on hover */
+        }
+
+
+        .feature h2 {
+            margin-top: 0;
+            animation: fadeIn 1s ease-out 1s; /* Feature title animation */
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            /* position: relative;  Footer at the bottom */
+            /* bottom: 0; */
+            width: 100%;
+            animation: fadeInUp 1s ease-out 1.2s; /* Footer animation */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Attendance Management System</h1>
+    </header>
+
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="attendnance.html">Attendance</a>
+        <a href="reports.html">Reports</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <h2>Welcome to our Attendance Management System</h2>
+            <p>Simplify your attendance tracking and management with our powerful and easy-to-use platform.</p>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <h2>Easy to Use</h2>
+                <p>Our intuitive interface makes it simple to record and manage attendance data.</p>
+            </div>
+            <div class="feature">
+                <h2>Real-time Tracking</h2>
+                <p>Track attendance in real-time and generate reports instantly.</p>
+            </div>
+            <div class="feature">
+                <h2>Automated Reports</h2>
+                <p>Generate custom reports to analyze attendance trends and identify patterns.</p>
+            </div>
+            <div class="feature">
+                <h2>Secure and Reliable</h2>
+                <p>Your data is safe and secure with our robust platform.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2023 Attendance Management System
+    </footer>
+
+</body>
+</html>
