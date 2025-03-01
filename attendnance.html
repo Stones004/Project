@@ -5,190 +5,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance</title>
     <style>
-        /* Basic Styling */
-        body {
-            font-family: sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-            overflow-x: hidden; /* Prevent horizontal scroll during animations */
-        }
+    
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f8ff; /* Light blue background */
+    color: #333; /* Dark gray text for better readability */
+    overflow-x: hidden;
+}
 
-        header {
-            background-color: #241616af;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            animation: fadeInDown 1s ease-out; /* Header animation */
-        }
+header {
+    background-color: #4682b4; /* Steel blue header */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+nav {
+    background-color: white;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
 
-        nav {
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            animation: fadeIn 1s ease-out 0.2s;
-        }
+nav a {
+    color: #4682b4;
+    text-decoration: none;
+    margin: 0 15px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
+nav a:hover {
+    background-color: #e6f7ff;
+    color: #0056b3;
+}
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
-            display: inline-block;
-        }
+.container {
+    width: 80%;
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
 
-        nav a:hover {
-            background-color: #555;
-            transform: scale(1.1);
-            color: #007bff;
-        }
+h1 {
+    color: white;
+}
+h2 {
+    color: #0056b3;
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s ease-out 0.4s forwards;
-        }
+/* Attendance Form Styles */
+form {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Two columns: label and input */
+    gap: 10px;
+    margin-bottom: 20px;
+}
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+label {
+    font-weight: bold;
+    text-align: right; /* Align labels to the right */
+}
 
-        h1, h2 {
-            text-align: center;
-            animation: fadeIn 1s ease-out 0.6s;
-            transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease; /* Transitions */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-        }
+input[type="text"],
+input[type="date"],
+select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%; /* Make inputs fill the available space */
+    box-sizing: border-box; /* Include padding and border in width */
+}
 
-        h1:hover {
-            transform: scale(1.05); /* Scale up slightly on hover */
-     /*       color: #0056b3; /* Change color on hover */
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
-        }
+button {
+    background-color: #4682b4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    grid-column: span 2; /* Span both columns */
+    transition: background-color 0.3s ease;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            opacity: 0;
-            transform: translateX(-20px); /* Move to the left initially */
-            animation: fadeInMoveRight 1s ease-out 0.8s forwards;
-        }
+button:hover {
+    background-color: #0056b3;
+}
 
-        @keyframes fadeInMoveRight {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
+/* Attendance Records Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-            transition: background-color 0.3s ease, color 0.3s ease; /* Add transition */
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+}
 
-        }
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
 
-        th {
-            background-color: #f0f0f0;
-            font-weight: bold;
-        }
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
 
-        th:hover {
-            background-color: #e0e0e0; /* Darker on hover */
-        }
-
-        tr:hover {
-            background-color: #f5f5f5; /* Highlight row on hover */
-            color: #007bff; /* Change text color on hover */
-            cursor: pointer; /* Indicate it's clickable (if needed) */
-        }
-        tr:hover td {
-            border: 1px solid #007bff; /* Blue border on hover */
-        }
-
-
-        form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-            animation: fadeIn 1s ease-out 1s; /* Form animation */
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            transition: border-color 0.3s ease; /* Transition for border color */
-        }
-
-        input[type="text"]:hover,
-        input[type="date"]:hover,
-        select:hover {
-            border-color: #007bff; /* Blue border on hover */
-        }
-
-        button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            grid-column: span 2;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
+tr:hover {
+    background-color: #e6f7ff;
+}
+        
     </style>
 </head>
 <body>
@@ -198,13 +136,13 @@
 
     <nav>
         <a href="home.html">Home</a>
-        <a href="attendnance.html">Attendance</a>
+        <a href="attendance.html">Attendance</a>
         <a href="reports.html">Reports</a>
         <a href="#">Contact</a>
     </nav>
 
     <div class="container">
-        <h1>Attendance</h1>
+        <h2>Attendance</h2>
 
         <form id="attendanceForm">
             <label for="studentID">Student ID:</label>
