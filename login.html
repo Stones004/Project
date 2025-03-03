@@ -1,1 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St Joseph's University </title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: url('your_background_image.jpg') no-repeat center center fixed; /* Replace with your image */
+            background-size: cover;
+        }
 
+        .container {
+            display: flex;
+            width: 80%;
+            max-width: 1200px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .left-section {
+            flex: 1;
+            padding: 40px;
+            color: #333;
+        }
+
+        .right-section {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-form {
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #673AB7; /* Purple button */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .login-form button:hover {
+            background-color: #512DA8;
+        }
+
+        .login-form a {
+            text-decoration: none;
+            color: #673AB7;
+            margin-top: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 0.8em;
+            text-align: center;
+            color: #777;
+        }
+
+        .footer a {
+            color: #777;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="left-section">
+            <img src="your_university_logo.png" alt="University Logo" style="max-width: 200px; margin-bottom: 20px;">
+            <p>St Joseph's University,<br>36, Lalbagh Road,<br>Bengaluru- 560027,<br>Karnataka, India.</p>
+            <p>Visit us at www.sju.in</p>
+            <p>For queries, please contact admin@sju.in</p>
+            <p>University Office<br>080 0000 0000 | 080 0000 0000 </p>
+        </div>
+        <div class="right-section">
+            <p>Sign in to your student account</p>
+            <form class="login-form" id="loginForm" action="/login" method="post">
+                <input type="text" name="username" placeholder="User Name" required>
+                <input type="password" name="password" placeholder="Credentials" required>
+                <button type="submit">Log in</button>
+                
+                <a href="#">Forgot Password?</a>
+            </form>
+            
+            <div class="footer">
+                <a href="#">Contact Details</a> | <a href="#">Terms And Conditions</a> | <a href="#">Refund Policy</a> | <a href="#">Privacy Policy</a><br>
+                Powered by Aadil-Aquil-Darren Pvt.Ltd
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            // Replace with your actual login logic in a real application
+            window.location.href = 'attendance.html'; // Redirect to home page
+        });
+    </script>
+</body>
+</html>
