@@ -1,57 +1,23 @@
 from datetime import datetime
-from flask import Flask, request, jsonify,session, redirect, url_for, render_template
+from flask import Flask, json, request, jsonify,session, redirect, url_for, render_template
 import mysql.connector
 from flask_cors import CORS, cross_origin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-app = Flask(__name__, template_folder='../templates')
-CORS(app, origins=["http://127.0.0.1:5500", "http://localhost:5500"]) # Example
+app = Flask(__name__, template_folder='templates',static_folder="static")
+CORS(app, origins=["http://127.0.0.1:5000", "http://localhost:5000"]) # Example
 app.secret_key = 'your_secret_key'
 
 # Database configuration (REPLACE with your credentials)
 mydb = mysql.connector.connect(
   host="localhost",  # e.g., localhost
-  user="root",
+  user="root", 
   password="1234",
   database="attendance_data"
 )
 
 if mydb.is_connected():
     print("Database connection established successfully")
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    error_message = None
-    if request.method == 'POST':
-        user_type = request.form['userType']
-        username = request.form['username']
-        password = request.form['password']
-
-        mycursor = mydb.cursor()
-        sql = "SELECT * FROM users WHERE ID = %s"  # Assuming your table is named 'users'
-        val = (username,)
-        mycursor.execute(sql, val)
-        result = mycursor.fetchone()
-
-        if result:
-            stored_password = result[1]  # Assuming password is the third column (index 2)
-            stored_role ="" # Assuming role is the fourth column (index 3)
-            if stored_password == password: # Comparing entered password with hashed password
-                if stored_role == "":
-                    session['ID'] = username
- #                   session['role'] = user_type
-                    return render_template('homer.html')
-                else:
-                    error_message = "Incorrect User Type"
-            else:
-                error_message = "Invalid password"
-        else:
-            error_message = "Invalid username"
-
-        mycursor.close()  # Close the cursor after use
-
-    return render_template('login.html', error_message=error_message)
 
 
 @app.route('/api/reports', methods=['GET'])
@@ -137,9 +103,89 @@ def save_attendance():
     finally:
         mycursor.close() # Close the cursor in a finally block to ensure it is always closed
 
+
+@app.route('/get_attendance_summary', methods=['GET'])
+def get_attendance_summary():
+    try:
+        mycursor = mydb.cursor()
+
+        student_id = request.args.get('studentID')
+        subject_id = request.args.get('subjectID')  # Can be None
+
+        if not student_id:
+            return jsonify({"error": "Student ID is required"}), 400
+
+        # If subjectID is provided, filter by it; otherwise, fetch all subjects for studentID
+        if subject_id:
+            query = """
+                SELECT studentID, subjectID, COUNT(*) AS total_present
+                FROM ex_data
+                WHERE status = 'Present' 
+                AND studentID = %s
+                AND subjectID = %s
+                GROUP BY studentID, subjectID;
+            """
+            mycursor.execute(query, (student_id, subject_id))
+        else:
+            query = """
+                SELECT studentID, subjectID, COUNT(*) AS total_present
+                FROM ex_data
+                WHERE status = 'Present' 
+                AND studentID = %s
+                GROUP BY studentID, subjectID;
+            """
+            mycursor.execute(query, (student_id,))
+
+        data = mycursor.fetchall()
+        mycursor.close()
+
+        if not data:
+            return jsonify({"message": "No data found"}), 404
+
+        result = [{"studentID": row[0], "subjectID": row[1], "total_present": row[2]} for row in data]
+        print(result)
+        return jsonify(result)
+
+    except mysql.connector.Error as e:
+        return jsonify({"error": str(e)}), 500
+
+#dont touch the above code
+
+
+users = {"student": "password123", "admin": "123"}
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    error = None
+    if request.method == "POST":
+        print("Form submitted!")
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        # Check if username exists and password is correct
+        if username in users and users[username] == password:
+            session["username"] = username  # Store user session
+            return redirect(url_for("home")) # Redirect to home
+        else:
+            error = "Invalid username or password. Try again."
+
+    return render_template("login.html", error=error)
+
+@app.route("/home")
+def home():
+    
+    return render_template("home.html")
+
+
+@app.route("/attendance")
+def attendance():
+    return render_template("attendnance.html")
+
+@app.route("/reports")
+def reports():
+    return render_template("reports.html")
+
 if __name__ == '__main__':
     app.run(debug=True)  # debug=True for development (auto-reloads)
-
-
 
 
